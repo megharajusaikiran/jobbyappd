@@ -60,7 +60,7 @@ class Jobs extends Component {
     salaryRange: '',
     searchinput: '',
     jobsList: [],
-    jobsapistatus: apiStatusConstants.initial,
+    jobsapistatus: apiStatusConstants.inProgress,
   }
 
   componentDidMount() {
@@ -203,6 +203,18 @@ class Jobs extends Component {
           </div>
         )
       case apiStatusConstants.success:
+        if (jobsList.length === 0) {
+          return (
+            <div>
+              <img
+                alt="no jobs"
+                src="https://assets.ccbp.in/frontend/react-js/no-jobs-img.png"
+              />
+              <h1>No Jobs Found</h1>
+              <p>We could not find any jobs. Try other filters.</p>
+            </div>
+          )
+        }
         return (
           <ul className="theulop">
             {jobsList.map(eachjob => (
@@ -210,6 +222,7 @@ class Jobs extends Component {
             ))}
           </ul>
         )
+
       case apiStatusConstants.failure:
         return (
           <div>
@@ -245,7 +258,7 @@ class Jobs extends Component {
             <h1 className="employmentTypeHeading">Type of Employment</h1>
             <ul className="ullistone">
               {employmentTypesList.map(each => (
-                <li className="eachLi">
+                <li key={each.employmentTypeId} className="eachLi">
                   <input
                     value={each.employmentTypeId}
                     onChange={this.employeeTypedetermine}
@@ -266,7 +279,7 @@ class Jobs extends Component {
             <h1 className="employmentTypeHeading">Salary Range</h1>
             <ul className="ullistone">
               {salaryRangesList.map(each => (
-                <li className="eachLi">
+                <li key={each.salaryRangeId} className="eachLi">
                   <input
                     value={each.salaryRangeId}
                     id={each.salaryRangeId}
@@ -277,6 +290,7 @@ class Jobs extends Component {
                   <label
                     htmlFor={salaryRangesList.salaryRangeId}
                     className="employmentlabel"
+                    value={each.label}
                   >
                     {each.label}
                   </label>

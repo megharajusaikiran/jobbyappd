@@ -3,6 +3,7 @@ import './index.css'
 import Cookies from 'js-cookie'
 import {AiFillStar} from 'react-icons/ai'
 import {IoLocationSharp} from 'react-icons/io5'
+import {FaExternalLinkAlt} from 'react-icons/fa'
 import {BsBriefcaseFill} from 'react-icons/bs'
 import Loader from 'react-loader-spinner'
 import Header from '../Header'
@@ -89,12 +90,13 @@ class JobItemDetails extends Component {
       skills,
       lifeAtCompany,
       similarJobs,
+      companyWebsiteurl,
     } = finalData
     const skillsnew = finalData.skills
     switch (apiStatus) {
       case apiStatusConstants.inProgress:
         return (
-          <div className="products-loader-container">
+          <div data-testid="loader" className="products-loader-container">
             <Loader type="ThreeDots" color="#0b69ff" height="50" width="50" />
           </div>
         )
@@ -104,7 +106,11 @@ class JobItemDetails extends Component {
             <div className="wholeee">
               <div className="imgandcontentdiv">
                 <div>
-                  <img className="jobitemimage" alt={id} src={companyLogo} />
+                  <img
+                    className="jobitemimage"
+                    alt="job details company logo"
+                    src={companyLogo}
+                  />
                 </div>
 
                 <div className="titlediv">
@@ -134,8 +140,13 @@ class JobItemDetails extends Component {
               </div>
 
               <hr />
+              <div>
+                <h1 className="des">Description</h1>
+                <a href={companyWebsiteurl}>
+                  Visit <FaExternalLinkAlt />
+                </a>
+              </div>
 
-              <h1 className="des">Description</h1>
               <p className="jobdes">{jobDescription}</p>
               <h1 className="title">Skills</h1>
               <ul className="skills-list">
@@ -153,7 +164,7 @@ class JobItemDetails extends Component {
               <div className="jobjkl">
                 <p className="jobdes">{lifeAtCompany.description}</p>
                 <img
-                  alt={lifeAtCompany.description}
+                  alt="life at company"
                   className="desclifeat"
                   src={lifeAtCompany.imageUrl}
                 />
@@ -164,11 +175,11 @@ class JobItemDetails extends Component {
               {finalData.similarJobs.map(eachjob => {
                 const {companyLogoUrl, employementType} = eachjob
                 return (
-                  <li className="thyuio">
+                  <li key={eachjob.id} className="thyuio">
                     <div className="imgandcontentdiv">
                       <div>
                         <img
-                          className="jobitemimage"
+                          className="similar job company logo"
                           alt={eachjob.id}
                           src={eachjob.companyLogoUrl}
                         />
@@ -182,12 +193,14 @@ class JobItemDetails extends Component {
                         </div>
                       </div>
                     </div>
+
                     <h1 className="des">Description</h1>
+
                     <p className="jobdes">{eachjob.jobDescription}</p>
                     <div className="leftside">
                       <div className="locationdiv">
                         <IoLocationSharp className="type-icon" />
-                        <p className="locationpara">{location}</p>
+                        <p className="locationpara">{eachjob.location}</p>
                       </div>
                       <div className="locationdiv">
                         <BsBriefcaseFill />

@@ -1,4 +1,6 @@
 import {Component} from 'react'
+import {Link, Redirect} from 'react-router-dom'
+import Cookies from 'js-cookie'
 
 import Header from '../Header'
 
@@ -11,25 +13,26 @@ class Home extends Component {
   }
 
   render() {
+    const token = Cookies.get('jwt_token')
+
+    if (token === undefined) {
+      return <Redirect to="/login" />
+    }
     return (
       <div>
         <Header />
         <div className="HomeMaindiv">
-          <h1 className="heading">
-            Find The Job That <br /> Fits Your Life
-          </h1>
+          <h1 className="heading">Find The Job That Fits Your Life</h1>
           <p className="para">
             Millions of people are searching for jobs,salary <br />{' '}
             information,company reviews.Find the jobs that fits your <br />{' '}
             abilities and potential
           </p>
-          <button
-            onClick={this.findjobsclicked}
-            className="buttonstyle"
-            type="button"
-          >
-            Find Jobs
-          </button>
+          <Link to="/jobs">
+            <button className="buttonstyle" type="button">
+              Find Jobs
+            </button>
+          </Link>
         </div>
       </div>
     )

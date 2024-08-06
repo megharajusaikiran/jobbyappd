@@ -27,7 +27,8 @@ class Login extends Component {
     this.setState({errormsg: true, errorMs: error})
   }
 
-  finalclicked = async () => {
+  finalclicked = async event => {
+    event.preventDefault()
     const {username, password} = this.state
     const url = 'https://apis.ccbp.in/login'
     const userdetails = {username, password}
@@ -51,7 +52,7 @@ class Login extends Component {
       return <Redirect to="/login" />
     }
     return (
-      <div className="loginBackground">
+      <form className="loginBackground" onSubmit={this.finalclicked}>
         <div className="loginFormback">
           <img
             className="logo"
@@ -86,16 +87,12 @@ class Login extends Component {
             />
           </div>
 
-          <button
-            className="thebutton"
-            type="button"
-            onClick={this.finalclicked}
-          >
+          <button className="thebutton" type="submit">
             Login
           </button>
           {errormsg ? <p className="errorMsgcss">*{errorMs}</p> : null}
         </div>
-      </div>
+      </form>
     )
   }
 }

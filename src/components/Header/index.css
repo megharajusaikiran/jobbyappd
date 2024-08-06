@@ -22,3 +22,6 @@
   text-decoration: none;
   margin-right: 10px;
 }
+.po {
+  display: flex;
+}
